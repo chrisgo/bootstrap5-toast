@@ -14,7 +14,20 @@ as a proof of concept (not complete)
 * Makes Bootstrap 5.x Toasts easier to use
 * Requires jQuery 3.x
 * TODO: Placement/Position is hardcoded to top-right `top-0 start-0`
+* TODO: Rounded square in the `toast-header` similar to Bootstrap documentation
 * TODO: Image
+* TODO: Investigate `delay`, does not seem to be working
+
+Code for Rounded square in Header
+
+```html
+<div class="toast-header">
+  <svg class="rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg"   preserveAspectRatio="xMidYMid slice" focusable="false" role="img">
+    <rect fill="#007aff" width="100%" height="100%" />
+  </svg>
+  ...
+</div>
+```
 
 ### Usage
 
@@ -24,7 +37,7 @@ as a proof of concept (not complete)
 <script src="src/toast.js"></script>
 ```
 
-#### Globals
+#### Globals (Not 100% Implemented)
 
 Modify the global variables to apply specific rules/styles to all your toasts.
 
@@ -46,16 +59,17 @@ $.toastDefaults = {
 
 #### Snack
 
-A "snack" is a bitesized "toast".
+A "snack" is a bitesized "toast".  
 
 ```javascript
 $.snack(type, content, delay)
 ```
+
 <img src="https://i.gyazo.com/165671094c4c956bf89a05f4d9f089b1.png">
 
 **Note:** The final argument `delay` is omitable. If omitted, the toast will remain forever.
 
-#### Toast
+#### Toast (Not 100% Implemented)
 
 ```javascript
 $.toast({
