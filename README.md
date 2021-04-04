@@ -1,5 +1,9 @@
 # bootstrap5-toast
 
+Copied from https://github.com/Script47/Toast and updated to support Bootstrap 5.x
+https://getbootstrap.com/docs/5.0/components/toasts/
+as a proof of concept (not complete)
+
 * [About](#about)
 * [Usage](#usage)
     * [Live Example](https://jsfiddle.net/47n5ygth/)
@@ -7,11 +11,7 @@
 
 ### About
 
-Copied from https://github.com/Script47/Toast and updated to support Bootstrap 5.x
-https://getbootstrap.com/docs/5.0/components/toasts/
-as a proof of concept (not complete)
-
-* Makes Bootstrap 5.x easier to use
+* Makes Bootstrap 5.x Toasts easier to use
 * Requires jQuery 3.x
 * TODO: Placement/Position is hardcoded to top-right `top-0 start-0`
 * TODO: Image
