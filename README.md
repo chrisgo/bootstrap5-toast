@@ -37,7 +37,7 @@ Code for Rounded square in Header
 <script src="src/toast.js"></script>
 ```
 
-#### Globals (Not 100% Implemented)
+### Globals (Not 100% Implemented)
 
 Modify the global variables to apply specific rules/styles to all your toasts.
 
@@ -57,7 +57,7 @@ $.toastDefaults = {
 };
 ```
 
-#### Snack
+### Snack
 
 A "snack" is a bitesized "toast".  
 
@@ -69,7 +69,7 @@ $.snack(type, content, delay)
 
 **Note:** The final argument `delay` is omitable. If omitted, the toast will remain forever.
 
-#### Toast (Not 100% Implemented)
+### Toast (Not 100% Implemented)
 
 ```javascript
 $.toast({
