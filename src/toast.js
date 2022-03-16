@@ -18,7 +18,7 @@
     // (1) Container
     //     Need to handle the placement, currently hardcoded here
     const TOAST_CONTAINER_HTML = `<div aria-live="polite" aria-atomic="true" class="position-relative">
-                                    <div id="toast-container" class="toast-container position-absolute top-0 end-0 p-3">
+                                    <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-1">
                                     </div>
                                  </div>`;
     // (2) Set some defaults
@@ -73,7 +73,7 @@
         let subtitle = opts.subtitle;
         let content = opts.content;
         let img = opts.img;
-        let delayOrAutohide = opts.delay ? `data-delay="${opts.delay}"` : `data-autohide="false"`;
+        let delayOrAutohide = opts.delay ? `data-delay="${opts.delay}"` : `data-bs-autohide="false"`;
         let hideAfter = ``;
         let dismissible = $.toastDefaults.dismissible;
         let globalToastStyles = $.toastDefaults.style.toast;
@@ -122,8 +122,8 @@
 
         // (9) Set the delay
         if ($.toastDefaults.pauseDelayOnHover && opts.delay) {
-            delayOrAutohide = `data-autohide="false"`;
-            hideAfter = `data-hide-after="${Math.floor(Date.now() / 1000) + (opts.delay / 1000)}"`;
+            delayOrAutohide = `data-bs-autohide="false"`;
+            hideAfter = `data-bs-delay="${Math.floor(Date.now() / 1000) + (opts.delay / 1000)}"`;
         }
 
         // (10) If there is a `title`
