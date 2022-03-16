@@ -116,7 +116,7 @@
         // (10) If there is a `title`
         if (title) {
             html = `<div id="${id}" class="toast ${globalToastStyles}" role="alert" aria-live="assertive" aria-atomic="true" ${delayOrAutohide} ${hideAfter}>`;
-            _dimissable = '';
+            _dismissable = '';
             _subtitle = '';
             _img = '';
             if (dismissible) {
