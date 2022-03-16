@@ -85,25 +85,38 @@
 
         // (8) Set specific class names
         switch (type) {
-            case 'info':
-                classes.header.bg = $.toastDefaults.style.info || 'bg-info';
+            case 'primary':
+                classes.header.bg = $.toastDefaults.style.info || 'bg-primary';
                 classes.header.fg = $.toastDefaults.style.info || 'text-white';
                 break;
-
+            case 'secondary':
+                classes.header.bg = $.toastDefaults.style.info || 'bg-secondary';
+                classes.header.fg = $.toastDefaults.style.info || 'text-white';
+                break;
             case 'success':
                 classes.header.bg = $.toastDefaults.style.success || 'bg-success';
                 classes.header.fg = $.toastDefaults.style.info || 'text-white';
                 break;
-
-            case 'warning':
-                classes.header.bg = $.toastDefaults.style.warning || 'bg-warning';
-                classes.header.fg = $.toastDefaults.style.warning || 'text-white';
-                break;
-
             case 'error':
             case 'danger':
                 classes.header.bg = $.toastDefaults.style.error || 'bg-danger';
                 classes.header.fg = $.toastDefaults.style.error || 'text-white';
+                break;
+            case 'warning':
+                classes.header.bg = $.toastDefaults.style.warning || 'bg-warning';
+                classes.header.fg = $.toastDefaults.style.warning || 'text-white';
+                break;
+            case 'info':
+                classes.header.bg = $.toastDefaults.style.info || 'bg-info';
+                classes.header.fg = $.toastDefaults.style.info || 'text-white';
+                break;
+            case 'light':
+                classes.header.bg = $.toastDefaults.style.info || 'bg-light';
+                classes.header.fg = $.toastDefaults.style.info || 'text-dark';
+                break;
+            case 'dark':
+                classes.header.bg = $.toastDefaults.style.info || 'bg-dark';
+                classes.header.fg = $.toastDefaults.style.info || 'text-white';
                 break;
         }
 
