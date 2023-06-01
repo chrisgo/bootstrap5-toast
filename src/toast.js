@@ -3,23 +3,26 @@
  * @description Toast - A Bootstrap 4.2+ jQuery plugin for the toast component
  * @version 1.2.0
  *
- * 4/3/21 CG: Massive edits to support bootstrap 5.x
- *
- * TODO:
- *
- * (1) Need to handle new placement
- *     https://getbootstrap.com/docs/5.0/components/toasts/#placement
- *     It is NOT top-right, top-left anymore but more granular classes are needed
- *
+ * 6/1/23 TG: Added the granular positions, fixed the omitted delay, added a progressbar if delay is present.
  *
  **/
 (function ($) {
 
+    // Map of old positions to new Bootstrap 5 classes
+    const POSITION_MAP = {
+        'top-right': 'top-0 end-0',
+        'top-left': 'top-0 start-0',
+        'top-center': 'top-0 start-50 translate-middle-x',
+        'bottom-right': 'bottom-0 end-0',
+        'bottom-left': 'bottom-0 start-0',
+        'bottom-center': 'bottom-0 start-50 translate-middle-x'
+    };
+    
     // (1) Container
     //     Need to handle the placement, currently hardcoded here
     const TOAST_CONTAINER_HTML = `<div aria-live="polite" aria-atomic="true" class="position-relative">
-                                    <div id="toast-container" class="toast-container position-fixed top-0 end-0 p-1">
-                                    </div>
+                                    <div id="toast-container" class="toast-container position-fixed p-1">
+                                 </div>
                                  </div>`;
     // (2) Set some defaults
     $.toastDefaults = {
@@ -51,9 +54,13 @@
         // (6) No container, create our own
         if (!$('#toast-container').length) {
             // (7) TODO: Get the new placement
-            const position = ['top-right', 'top-left', 'top-center', 'bottom-right', 'bottom-left', 'bottom-center'].includes($.toastDefaults.position) ? $.toastDefaults.position : 'top-right';
+            
+            let positionClass = POSITION_MAP[$.toastDefaults.position];
+            if (!positionClass) {
+                positionClass = 'top-0 end-0';  // Default to top-right if no valid position is found
+            }
             $('body').prepend(TOAST_CONTAINER_HTML);
-            $('#toast-container').addClass(position);
+            $('#toast-container').addClass(positionClass);
         }
 
         // (7) Finalize all the options, merge defaults with what was passed in
@@ -61,6 +68,10 @@
         let html = '';
         let classes = {
             header: {
+                fg: '',
+                bg: ''
+            },
+            body: {
                 fg: '',
                 bg: ''
             },
@@ -101,6 +112,7 @@
             case 'danger':
                 classes.header.bg = $.toastDefaults.style.error || 'bg-danger';
                 classes.header.fg = $.toastDefaults.style.error || 'text-white';
+                classes.body.fg = 'text-black';
                 break;
             case 'warning':
                 classes.header.bg = $.toastDefaults.style.warning || 'bg-warning';
@@ -126,9 +138,20 @@
             hideAfter = `data-bs-delay="${Math.floor(Date.now() / 1000) + (opts.delay / 1000)}"`;
         }
 
+        let progressBarHtml = `<div class="progress" style="height: 2px;">
+                            <div class="progress-bar" 
+                                 role="progressbar" 
+                                 aria-valuenow="100" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100"
+                                 style="width: 100%;">
+                            </div>
+                       </div>`;
+
         // (10) If there is a `title`
         if (title) {
             html = `<div id="${id}" class="toast ${globalToastStyles}" role="alert" aria-live="assertive" aria-atomic="true" ${delayOrAutohide} ${hideAfter}>`;
+            html += progressBarHtml;
             _dismissable = '';
             _subtitle = '';
             _img = '';
@@ -139,7 +162,8 @@
                 _subtitle = `<small>${subtitle}</small>`;
             }
             if (img) {
-                //_img = `<img src="..." class="rounded me-2" alt="...">`;
+                if(img.class == undefined) img.class = 'rounded me-2'
+                _img = `<img src="${img.src}" class="${img.class}" alt="${img.alt}">`;
             }
             // html += `<div class="toast-header">
             //
@@ -154,7 +178,7 @@
                         ${_dismissable}
                      </div>`;
             if (content) {
-                html += `<div class="toast-body">
+                html += `<div class="toast-body ${classes.body.fg}">
                             ${content}
                          </div>`;
             }
@@ -172,7 +196,7 @@
                                <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
                              </div>`;
                 } else {
-                    html += `<div class="toast-body">
+                    html += `<div class="toast-body ${classes.body.fg}">
                                ${content}
                              </div>`;
                 }
@@ -191,7 +215,7 @@
             toastContainer.find('.toast:last').toast('show');
         }
         // (13) Deal with the delay
-        if ($.toastDefaults.pauseDelayOnHover) {
+        if ($.toastDefaults.pauseDelayOnHover && opts.delay) {
             setTimeout(function () {
                 if (!paused) {
                     $(`#${id}`).toast('hide');
@@ -211,8 +235,27 @@
                 }
             });
         }
+        if (opts.delay) {
+            updateProgressBar(opts.delay, id);
+        }
         // (14) Increment the counter
         toastRunningCount++;
+    }
+
+    function updateProgressBar(delay, id) {
+        let progressBar = $(`#${id} .progress-bar`);
+        let timeLeft = delay;
+        let total = delay;
+        let interval = setInterval(() => {
+            if (timeLeft <= 0) {
+                clearInterval(interval);
+                return;
+            }
+            timeLeft -= 100; // we're using 100ms interval
+            progressBar.css('width', `${(timeLeft / total) * 100}%`);
+            console.log(`${(timeLeft / total) * 100}%`);
+            
+        }, 100); // update every 100ms
     }
 
     /**
